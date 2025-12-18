@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: "Write your note here...";
+  color: #737373;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

@@ -21,7 +21,7 @@ const Tiptap = ({ content, onChange }: TiptapProps) => {
       Underline,
       TextStyle,
       TextAlign.configure({
-        types: ['paragraph', 'heading'],
+        types: ["paragraph", "heading"],
       }),
       FontSize,
       Placeholder.configure({
@@ -34,7 +34,11 @@ const Tiptap = ({ content, onChange }: TiptapProps) => {
       const text = editor.getText().trim();
 
       if (text.length > 500) {
-        editor.commands.undo();
+        const trimmed = text.slice(0, 500);
+
+        editor.commands.setContent(trimmed);
+        // editor.commands.setTextSelection(Math.min(from, trimmed.length));
+        onChange(trimmed);
         return;
       }
 

@@ -33,10 +33,10 @@ const Home = () => {
             }}
             className={serif.className}
           >
-            <span className="block">Private Notes</span>
+            <span className="block">Encrypted Notes</span>
 
-            <span className="flex flex-wrap justify-center gap-x-2 sm:gap-x-4 mt-0.5">
-              <span>unlock with</span>
+            <span className="flex flex-wrap justify-center gap-x-2 sm:gap-x-4 mt-2">
+              <span>secured with</span>
               <span
                 style={{
                   color: "oklch(0.7 0.2 50)",
@@ -51,9 +51,9 @@ const Home = () => {
             className={`text-[12px] md:text-lg lg:text-xl mt-6 sm:mt-8 ${jost.className} text-neutral-200 px-4`}
           >
             <p className="">
-              Keep your notes private and share them with confidence.
+              Write freely. Your notes stay encrypted.
             </p>
-            <p className="">Generate quick summaries with AI.</p>
+            <p className="">Turn long notes into quick summaries with AI.</p>
           </div>
 
           <button

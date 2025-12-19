@@ -8,6 +8,7 @@ import { TextStyle } from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import FontSize from "@tiptap/extension-font-size";
+import { useEffect } from "react";
 
 type TiptapProps = {
   content: string | null;
@@ -45,6 +46,14 @@ const Tiptap = ({ content, onChange }: TiptapProps) => {
       onChange(text);
     },
   });
+
+   useEffect(() => {
+    if (!editor) return;
+
+    if (!content) {
+      editor.commands.clearContent();
+    }
+  }, [content, editor]);
 
   return (
     <div className="prose prose-invert w-full max-w-2xl">

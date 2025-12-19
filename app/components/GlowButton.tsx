@@ -5,13 +5,16 @@ import { cn } from "../lib/cn";
 const GlowButton = ({
   children,
   className,
+  onClick
 }: {
+  onClick: () => void
   children: React.ReactNode;
   disableChevron?: boolean;
   className?: string;
 }) => {
   return (
     <button
+      onClick={onClick}
       className={cn(
         "hover:opacity-[0.90] text-[18px] rounded-xl border font-extralight  relative overflow-hidden after:absolute after:content-[''] after:inset-0 after:[box-shadow:0_0_15px_-1px_#ffffff90_inset] after:rounded-xl before:absolute before:content-[''] before:inset-0  before:rounded-xl cursor-pointer flex items-center before:z-20 after:z-10",
         " before:[box-shadow:0_0_4px_-1px_#fff_inset] bg-[#DE732C]  border-[#f8d4b3]/80 ",

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Copy, Check } from "lucide-react";
 import { toast } from "react-toastify";
 import { axiosInstance } from "../lib/axios";
+import { formatDate } from "../lib/utils";
 
 interface NoteData {
   noteId: string;
@@ -68,16 +69,6 @@ const UserNotes: React.FC<UserNotesProps> = ({ items }) => {
       console.log("Failed to copy URL", error);
       toast.error("Failed to copy URL");
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
   };
 
   if (loading) {

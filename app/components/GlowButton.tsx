@@ -1,11 +1,12 @@
-import { Save } from "lucide-react";
+import { Save, WandSparkles } from "lucide-react";
 import React from "react";
 import { cn } from "../lib/cn";
 
 const GlowButton = ({
   children,
   className,
-  onClick
+  onClick,
+  disableChevron
 }: {
   onClick: () => void
   children: React.ReactNode;
@@ -22,7 +23,7 @@ const GlowButton = ({
       )}
     >
       <div className="flex items-center gap-2 border-r border-white/40 px-4 py-2 z-0 ">
-        <Save className="w-5" />
+        {disableChevron ? <Save className="w-5" /> : <WandSparkles className="w-5" />}
         <p>{children}</p>
       </div>
     </button>

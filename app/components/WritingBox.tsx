@@ -84,6 +84,7 @@ const WritingBox = () => {
         </p>
         <div className="py-4">
           <GlowButton
+            disableChevron
             onClick={() => handleSave()}
             className="font-semibold text-white"
           >

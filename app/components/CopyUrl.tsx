@@ -16,7 +16,7 @@ const CopyUrl: React.FC<CopyUrlProps> = ({ noteId }) => {
     try {
       await navigator.clipboard.writeText(noteUrl);
       setCopied(true);
-      toast.success("URL copied to clipboard!");
+      toast("URL copied to clipboard!");
 
       setTimeout(() => {
         setCopied(false);

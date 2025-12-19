@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { Eye, EyeOff, Loader2, X } from "lucide-react";
 import { axiosInstance } from "../lib/axios";
 import CopyUrl from "./CopyUrl";
+import { addNoteIdToLocalstorage } from "../lib/utils";
 
 const WritingBox = () => {
   const [text, setText] = useState<string | null>(null);
@@ -36,6 +37,13 @@ const WritingBox = () => {
       });
 
       setNoteid(res.data.data.noteId);
+
+      //setting the noteId to localstoage
+      try {
+        addNoteIdToLocalstorage(res.data.data.noteId);
+      } catch (error) {
+        console.error("Failed to save to localstorage:", error);
+      }
 
       setPassword("");
       setText("");
@@ -167,7 +175,7 @@ const WritingBox = () => {
     "
               >
                 {loading && <Loader2 className="animate-spin" size={16} />}
-                {loading ? "Saving..." : "Confirm"}
+                {loading ? "Saving" : "Confirm"}
               </button>
             </div>
           </div>

@@ -1,3 +1,4 @@
+'use client'
 import { Editor } from "@tiptap/react";
 import {
   Bold,
@@ -12,12 +13,14 @@ import {
 import React from "react";
 import { motion } from "motion/react";
 import { cn } from "../lib/cn";
+import { useRouter } from "next/navigation";
 
 type ToolbarProps = {
   editor: Editor | null;
 };
 
 export const Toolbar = ({ editor }: ToolbarProps) => {
+  const router = useRouter()
   if (!editor) return null;
 
   const hasText = editor.getText().trim().length > 0
@@ -103,6 +106,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
       >
         {" "}
         <button
+          onClick={() => router.push("/notes/my-notes")}
           className={cn(
             "flex items-center cursor-pointer justify-center w-12 h-12 rounded-xl transition-all border border-neutral-500 bg-white",
             "text-neutral-800 text-shadow-black text-shadow-2xl",

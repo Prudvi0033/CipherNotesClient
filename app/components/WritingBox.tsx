@@ -7,10 +7,10 @@ import { toast } from "react-toastify";
 import { Eye, EyeOff, Loader2, X } from "lucide-react";
 import { axiosInstance } from "../lib/axios";
 import CopyUrl from "./CopyUrl";
-import { addNoteIdToLocalstorage } from "../lib/utils";
+import { addNoteIdToLocalstorage, getCharlengthNoHtml } from "../lib/utils";
 
 const WritingBox = () => {
-  const [text, setText] = useState<string | null>(null);
+  const [text, setText] = useState<string>("");
   const [password, setPassword] = useState("");
   const [expiry, setExpiry] = useState("");
 
@@ -26,7 +26,7 @@ const WritingBox = () => {
       return;
     }
 
-    const expiryDays = expiry ? Number(expiry) : null;
+    const expiryDays = expiry ? Number(expiry) : 7;
 
     setLoading(true);
     try {
@@ -59,8 +59,10 @@ const WritingBox = () => {
     }
   };
 
+  const textLength = getCharlengthNoHtml(text);
+
   const handleSave = () => {
-    if (!text || text.length === 0) {
+    if (!text || textLength === 0) {
       toast.error("Text cannot be empty!");
       return;
     }
@@ -75,12 +77,12 @@ const WritingBox = () => {
         <p
           className={cn(
             "text-sm  py-2",
-            text !== null && text?.length > 480
+            text !== null && textLength > 480
               ? "text-red-700"
               : "text-neutral-400"
           )}
         >
-          {text === null ? 0 : text.length}/{500}
+          {text === null ? 0 : textLength}/{500}
         </p>
         <div className="py-4">
           <GlowButton
@@ -133,10 +135,27 @@ const WritingBox = () => {
             <div className="flex flex-col">
               <label className="text-sm text-neutral-400 mb-1">Expiry</label>
               <input
-                type="number"
-                min={1}
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={expiry}
-                onChange={(e) => setExpiry(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  // Allow empty (user clearing input)
+                  if (value === "") {
+                    setExpiry("");
+                    return;
+                  }
+
+                  // Allow ONLY digits (0–9)
+                  if (/^\d+$/.test(value)) {
+                    // Prevent 0
+                    if (Number(value) > 0) {
+                      setExpiry(value);
+                    }
+                  }
+                }}
                 className="w-full 
                           appearance-none
                           [&::-webkit-outer-spin-button]:appearance-none

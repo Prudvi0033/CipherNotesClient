@@ -48,8 +48,11 @@ const ViewNotes = ({ noteId }: ViewNotesProps) => {
 
   return (
     <div className="">
-      <div className="w-136 p-6 select-none leading-loose tracking-wider text-neutral-300 border min-h-100 rounded-xl border-white/10">
-        {content}
+      <div 
+      className="w-136 p-6 select-none leading-loose tracking-wider text-neutral-300 border min-h-100 rounded-xl border-white/10"
+      dangerouslySetInnerHTML={{ __html: content }} 
+      >
+        
       </div>
       <div className="flex justify-between py-4 px-2">
         <h3 className="text-neutral-300">

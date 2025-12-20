@@ -32,22 +32,24 @@ const Tiptap = ({ content, onChange }: TiptapProps) => {
     content,
     immediatelyRender: false,
     onUpdate({ editor }) {
-      const text = editor.getText().trim();
+      const plainText = editor.getText().replace(/\n/g, "").trim();
+      const html = editor.getHTML();
 
-      if (text.length > 500) {
-        const trimmed = text.slice(0, 500);
+      if (plainText.length > 500) {
+        const trimmedText = plainText.slice(0, 500);
 
-        editor.commands.setContent(trimmed);
-        // editor.commands.setTextSelection(Math.min(from, trimmed.length));
-        onChange(trimmed);
+        editor.commands.setContent(trimmedText);
+        editor.commands.setTextSelection(trimmedText.length);
+
+        onChange(trimmedText);
         return;
       }
 
-      onChange(text);
+      onChange(html);
     },
   });
 
-   useEffect(() => {
+  useEffect(() => {
     if (!editor) return;
 
     if (!content) {
@@ -60,7 +62,7 @@ const Tiptap = ({ content, onChange }: TiptapProps) => {
       <Toolbar editor={editor} />
       <EditorContent
         editor={editor}
-        className="bg-neutral-900 focus-within:border-white/10 border border-white/5 rounded-2xl p-6 min-h-100 text-neutral-100 transition-all duration-300 outline-none"
+        className="bg-neutral-900 focus-within:border-white/10 border leading-loose border-white/5 rounded-2xl p-6 min-h-100 text-neutral-100 transition-all duration-300 outline-none"
       />
     </div>
   );

@@ -4,6 +4,7 @@ import GlowButton from "./GlowButton";
 import { DUMMY_DATA, DUMMY_DATE, formatDate } from "../lib/utils";
 import { toast } from "react-toastify";
 import { axiosInstance } from "../lib/axios";
+import SummarizedText from "./SummarizedText";
 
 type ViewNotesProps = {
   noteId: string;
@@ -18,6 +19,10 @@ const ViewNotes = ({ noteId }: ViewNotesProps) => {
   const [content, setContent] = useState(DUMMY_DATA);
 
   const [modal, setModal] = useState(true);
+
+  const [isSummary, setIsSummary] = useState(false);
+  const [summarizedText, setSummarizedText] = useState("");
+  const [summaryLoading, setSummaryLoading] = useState(false);
 
   const handleUnclockView = async () => {
     if (!password) {
@@ -37,7 +42,7 @@ const ViewNotes = ({ noteId }: ViewNotesProps) => {
 
       setExpiry(res.data.data.expiresAt);
       setContent(res.data.data.content);
-      setModal(false)
+      setModal(false);
       toast("Note unlocked");
     } catch (error) {
       console.log("Error in viewing note", error);
@@ -46,24 +51,40 @@ const ViewNotes = ({ noteId }: ViewNotesProps) => {
     }
   };
 
+  const handleSummarizeText = async () => {
+    try {
+      setIsSummary(true);
+      setSummaryLoading(true);
+
+      const res = await axiosInstance.post(`/notes/${noteId}/summarize`);
+      setSummarizedText(res.data.data.summarizedText);
+    } catch (error) {
+      console.log("Error in getting summary", error);
+    } finally {
+      setSummaryLoading(false);
+    }
+  };
+
   return (
     <div className="">
-      <div 
-      className="w-136 p-6 select-none leading-loose tracking-wider text-neutral-300 border min-h-100 rounded-xl border-white/10"
-      dangerouslySetInnerHTML={{ __html: content }} 
-      >
-        
-      </div>
+      <div
+        className="w-136 p-4 select-none leading-loose tracking-wider text-neutral-300 border min-h-100 rounded-xl border-white/10"
+        dangerouslySetInnerHTML={{ __html: content }}
+      ></div>
       <div className="flex justify-between py-4 px-2">
         <h3 className="text-neutral-300">
-          Expires At: <p className="text-[14px] text-neutral-400">{formatDate(expiry)}</p>
+          Expires At:{" "}
+          <p className="text-[14px] text-neutral-400">{formatDate(expiry)}</p>
         </h3>
-        <GlowButton
-          className="text-white font-semibold text-sm"
-          onClick={() => {}}
-        >
-          Summarize
-        </GlowButton>
+        <div>
+          <GlowButton
+            loading={summaryLoading}
+            className="text-white font-semibold text-sm"
+            onClick={handleSummarizeText}
+          >
+            {summaryLoading ? <Loader2 className="animate-spin text-center"/> : "Summarize"}
+          </GlowButton>
+        </div>
       </div>
 
       {modal && (
@@ -126,6 +147,13 @@ const ViewNotes = ({ noteId }: ViewNotesProps) => {
           </div>
         </div>
       )}
+
+      {
+        isSummary && (
+          <SummarizedText content={summarizedText} loading={summaryLoading} />
+        )
+      }  
+      
     </div>
   );
 };

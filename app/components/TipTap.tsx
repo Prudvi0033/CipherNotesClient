@@ -62,7 +62,7 @@ const Tiptap = ({ content, onChange }: TiptapProps) => {
       <Toolbar editor={editor} />
       <EditorContent
         editor={editor}
-        className="bg-neutral-900 focus-within:border-white/10 border leading-loose border-white/5 rounded-2xl p-6 min-h-100 text-neutral-100 transition-all duration-300 outline-none"
+        className="bg-neutral-900 focus-within:border-white/20 border leading-loose border-white/10 rounded-2xl p-6 min-h-100 text-neutral-100 transition-all duration-300 outline-none"
       />
     </div>
   );
